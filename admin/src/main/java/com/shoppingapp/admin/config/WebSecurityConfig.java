@@ -55,14 +55,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         // We don't need CSRF for this example
         httpSecurity.csrf().disable()
                 // dont authenticate this particular request
-                .authorizeRequests().antMatchers("/**/authenticate","/swagger-ui/**", "/v3/api-docs/**","/**/register","/**/forgot").permitAll().
+                .authorizeRequests().antMatchers("/swagger-ui/**", "/v3/api-docs/**","/admin/api/v1.0/shopping/register","/admin/api/v1.0/shopping/authenticate","/admin/api/v1.0/shopping/role/**","/admin/api/v1.0/shopping/forgot").permitAll().
                 // all other requests need to be authenticated
                         anyRequest().authenticated().and().
                 // make sure we use stateless session; session won't be used to
                 // store user's state.
                         exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint).and().sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-
+        httpSecurity.cors();
         // Add a filter to validate the tokens with every request
         httpSecurity.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
     }

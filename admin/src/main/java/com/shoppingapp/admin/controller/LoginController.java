@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 @SecurityRequirement(name = "admin-service")
 @Slf4j
 @RestController
-@RequestMapping("/api/v1.0/shopping")
+@RequestMapping("/admin/api/v1.0/shopping")
 public class LoginController {
 
     @Autowired
@@ -29,7 +29,8 @@ public class LoginController {
             return new ResponseEntity<>("User registered successfully!!", HttpStatus.CREATED);
         }catch(Exception e) {
             log.info("inside exception block"+e.toString());
-            if(e.getMessage().contains("User already exists!!")){
+            log.info(e.getMessage()+"logged here");
+            if(e.toString().contains("User already exits!!")){
                 return new ResponseEntity<>(e.getMessage(), HttpStatus.OK);
             }
             return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);

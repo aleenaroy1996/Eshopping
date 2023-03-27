@@ -20,7 +20,7 @@ public class AdminService {
         HttpEntity<?> entity = new HttpEntity(product, null);
         Response productResponse  = null;
         try {
-            productResponse = restTemplate.exchange("lb://product/api/v1.0/shopping/"+product.getName()+"/add/",
+            productResponse = restTemplate.exchange("lb://product/product/api/v1.0/shopping/"+product.getName()+"/add/",
                     HttpMethod.POST, entity, Response.class).getBody();
         }
         catch (RestClientException e) {
@@ -34,7 +34,7 @@ public class AdminService {
         HttpEntity<?> entity = new HttpEntity(product, null);
         Response productResponse  = null;
         try {
-            productResponse = restTemplate.exchange("lb://product/api/v1.0/shopping/"+product.getName()+"/update/"+id,
+            productResponse = restTemplate.exchange("lb://product/product/api/v1.0/shopping/"+product.getName()+"/update/"+id,
                     HttpMethod.PUT, entity, Response.class).getBody();
         } catch (RestClientException e) {
             throw e;

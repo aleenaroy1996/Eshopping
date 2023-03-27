@@ -23,7 +23,7 @@ public class CustomerService {
         HttpEntity<?> entity = new HttpEntity<>(null,null);
         Response productResponse  = null;
         try {
-            productResponse = restTemplate.exchange("lb://product/api/v1.0/shopping/all",
+            productResponse = restTemplate.exchange("lb://product/product/api/v1.0/shopping/all",
                     HttpMethod.GET, entity, Response.class).getBody();
         } catch (RestClientException e) {
             throw e;
@@ -35,7 +35,7 @@ public class CustomerService {
         HttpEntity<?> entity = new HttpEntity<>(null,null);
         Response productResponse  = null;
         try {
-            productResponse = restTemplate.exchange("lb://product/api/v1.0/shopping/products/search/"+productName,
+            productResponse = restTemplate.exchange("lb://product/product/api/v1.0/shopping/products/search/"+productName,
                     HttpMethod.GET, entity, Response.class).getBody();
         } catch (RestClientException e) {
             throw e;

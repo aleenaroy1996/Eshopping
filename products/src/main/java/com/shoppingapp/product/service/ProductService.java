@@ -32,7 +32,11 @@ public class ProductService {
             ModelMapper modelMapper = new ModelMapper();
             ProductEntity productEntity = modelMapper.map(product, ProductEntity.class);
             productEntity.setId(nextSequenceService.getNextSequence("productId"));
-            productEntity.setStatus(Constant.HURRY_UP_TO_PURCHASE);
+            if(product.getQuantityAvailable()>0) {
+                productEntity.setStatus(Constant.HURRY_UP_TO_PURCHASE);
+            }else{
+                productEntity.setStatus(Constant.OUT_OF_STOCK);
+            }
             productRepo.save(productEntity);
         }
     }
@@ -54,7 +58,11 @@ public class ProductService {
         if(productOptional.isPresent()) {
             ProductEntity productEntity = productOptional.get();
             productEntity.setName(product.getName());
-            if(productEntity.getQuantityAvailable()==0){
+            productEntity.setDescription(product.getDescription());
+            productEntity.setFeature(product.getFeature());
+            productEntity.setPrice(product.getPrice());
+            productEntity.setQuantityAvailable(product.getQuantityAvailable());
+            if(productEntity.getQuantityAvailable()<=0){
                 productEntity.setStatus(Constant.OUT_OF_STOCK);
             }
             else{

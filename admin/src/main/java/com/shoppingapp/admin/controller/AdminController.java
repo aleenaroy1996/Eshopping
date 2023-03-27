@@ -5,27 +5,41 @@ import com.shoppingapp.admin.exception.ApplicationException;
 import com.shoppingapp.admin.model.Product;
 import com.shoppingapp.admin.response.Response;
 import com.shoppingapp.admin.service.AdminService;
+import com.shoppingapp.admin.service.UserService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.web.bind.annotation.*;
 
+@CrossOrigin
 @SecurityRequirement(name = "admin-service")
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/v1.0/shopping")
+@RequestMapping("/admin/api/v1.0/shopping")
 public class AdminController {
 
     private final AdminService service;
+    private final UserService userService;
 
     private final KafkaTemplate<String, String> kafkaTemplate;
 
     @GetMapping("/status")
     public ResponseEntity<Response> getStatus() {
         return new ResponseEntity<Response>(new Response("Admin application is running!",HttpStatus.OK.value()),HttpStatus.OK);
+    }
+
+    @GetMapping("/role/{userName}")
+    public ResponseEntity<String> getRole(@PathVariable String userName) throws ApplicationException {
+        try {
+            String response = userService.getRole(userName);
+            return new ResponseEntity<String>(response, HttpStatus.OK);
+        } catch (Exception e) {
+            throw new ApplicationException(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR.value());
+        }
     }
 
     @PostMapping(value = "/{productName}/add")
@@ -39,13 +53,15 @@ public class AdminController {
         }
     }
 
+
     @PutMapping(value = "/{productName}/update/{id}")
     public ResponseEntity<Response> updateProduct(@PathVariable String productName, @PathVariable int id, @RequestBody Product product) throws ApplicationException {
         try {
             // add an if exists check using product name
             product.setName(productName);
             Response response= service.updateProduct(product,id);
-            return new ResponseEntity<>(response, HttpStatus.valueOf(response.getStatus()));
+
+            return new ResponseEntity<>(response,HttpStatus.valueOf(response.getStatus()));
         } catch (Exception e) {
             throw new ApplicationException(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR.value());
         }

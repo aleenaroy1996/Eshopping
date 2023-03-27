@@ -6,6 +6,7 @@ import com.shoppingapp.admin.model.JwtRequest;
 import com.shoppingapp.admin.model.JwtResponse;
 import com.shoppingapp.admin.service.JwtUserDetailsService;
 import com.shoppingapp.admin.util.PasswordUtil;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,9 +17,10 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
-@RestController
 @CrossOrigin
-@RequestMapping("/api/v1.0/shopping")
+@SecurityRequirement(name = "admin-service")
+@RestController
+@RequestMapping("/admin/api/v1.0/shopping")
 public class JwtAuthenticationController {
 
     @Autowired

@@ -31,7 +31,7 @@ public class UserService {
         if(userRepo.existsByEmail(user.getEmail())){
             throw new Exception("User already exits!!");
         }
-        user.setRole(String.valueOf(EnumRole.CUSTOMER));
+//        user.setRole(String.valueOf(EnumRole.CUSTOMER));
         try {
             ModelMapper modelMapper = new ModelMapper();
             UserEntity userEntity = modelMapper.map(user, UserEntity.class);
@@ -39,6 +39,22 @@ public class UserService {
             userEntity.setPassword(passwordUtil.encrypt(user.getPassword()));
             userRepo.save(userEntity);
             return user;
+        }catch(Exception e) {
+            throw e;
+        }
+    }
+
+    public String getRole(String userName) throws Exception {
+        try {
+            Optional<UserEntity> userEntityOptional= userRepo.findByUserName(userName);
+            if(userEntityOptional.isPresent()){
+                String userRole = userEntityOptional.get().getRole();
+                return userRole;
+            }
+            else{
+                return "User not found!!";
+            }
+
         }catch(Exception e) {
             throw e;
         }
