@@ -17,7 +17,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
-@CrossOrigin
+
 @SecurityRequirement(name = "admin-service")
 @RestController
 @RequestMapping("/admin/api/v1.0/shopping")

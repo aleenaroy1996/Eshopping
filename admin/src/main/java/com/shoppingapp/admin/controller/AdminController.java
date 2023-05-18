@@ -15,7 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.web.bind.annotation.*;
 
-@CrossOrigin
+
 @SecurityRequirement(name = "admin-service")
 @RestController
 @RequiredArgsConstructor

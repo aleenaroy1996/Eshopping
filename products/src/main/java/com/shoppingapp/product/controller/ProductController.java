@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.constraints.Max;
 import java.util.List;
 import java.util.Map;
-@CrossOrigin
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/product/api/v1.0/shopping")
